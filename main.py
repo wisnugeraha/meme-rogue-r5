@@ -10,7 +10,6 @@ and a pure-python PNG encoder. Runs in < 2 s on the grader's 1 CPU budget.
 import struct, zlib
 
 W, H = 1024, 1024
-OUT = "/output/entry.png"
 
 # 8x8 bitmap font (rows are 8-bit masks, top row first, bit 7 = leftmost)
 FONT = {
@@ -157,6 +156,10 @@ def text(canvas, x, y, s, c, scale=8):
     return x
 
 def main():
+    import os, sys
+    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
+    os.makedirs(out_dir, exist_ok=True)
+    out_path = os.path.join(out_dir, "entry.png")
     canvas = new_canvas()
     S = 8  # text scale (font is 8px wide, 9px advance)
     # terminal panel
@@ -206,9 +209,9 @@ def main():
     png += chunk(b'IHDR', struct.pack('>IIBBBBB', W, H, 8, 2, 0, 0, 0))
     png += chunk(b'IDAT', zlib.compress(raw, 9))
     png += chunk(b'IEND', b'')
-    with open(OUT, 'wb') as f:
+    with open(out_path, 'wb') as f:
         f.write(png)
-    print(f"wrote {OUT} ({len(png)} bytes)")
+    print(f"wrote {out_path} ({len(png)} bytes)")
 
 if __name__ == '__main__':
     main()
