@@ -196,9 +196,10 @@ def main():
     text(canvas, x0, y, "status: ALL SYSTEMS NOMINAL", GREEN, S); y += 34
     text(canvas, x0, y, "tip: the agent is not a robot. it is", DIM, S); y += 34
     text(canvas, x0, y, "     3,000 lines of python. it just", DIM, S); y += 34
-    text(canvas, x0, y, "     really, really trusted the process.", DIM, S)
-    # blinking cursor
-    text(canvas, x0, y + 34, "_", WHITE, S)
+    text(canvas, x0, y, "     really, really trusted the process", DIM, S); y += 34
+    # punchline — smaller scale so it fits in 1024px
+    S2 = 5
+    text(canvas, 140, y, "I know what I did.", WHITE, S2)
 
     def chunk(ctype, data):
         return struct.pack('>I', len(data)) + ctype + data + struct.pack('>I', zlib.crc32(ctype + data) & 0xFFFFFFFF)
